@@ -4,6 +4,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+// CORS Policy
+const cors = require("cors");
 
 
 const indexRouter = require('./routes/index');
@@ -15,6 +17,10 @@ const floorRouter = require('./routes/floor')
 var app = express();
 
 const PORT = process.env.PORT || 3000;
+
+
+// App initialization
+app.use(cors());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
