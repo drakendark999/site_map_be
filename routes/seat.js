@@ -6,4 +6,13 @@ const SeatController = require("../controller/seat.controller");
 SeatRouter.get("/", SeatController.getSeat);
 SeatRouter.get('/floor9',SeatController.getSeatFloor9)
 
+// Edit Seat
+SeatRouter.post('/seat-change/:id')  // id : idSeat
+     // params = {
+        //   nameUser:'',
+        //   title:'',
+        //   avatar:'',
+        //   idSeat:''
+        // }
+
 module.exports = SeatRouter;

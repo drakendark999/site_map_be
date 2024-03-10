@@ -11,13 +11,10 @@ const UserModel = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    msnv:{type: DataTypes.STRING,allowNull:false},
     nameUser: {
       type: DataTypes.STRING,
       allowNull: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
     title: {
       type: DataTypes.STRING,
