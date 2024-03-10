@@ -14,12 +14,11 @@ module.exports = {
   getSeatFloor9: async function (req, res) {
     try {
       const seat = await SeatModel.findAll({
-        // include: [
-        //   {
-        //     model: UserModel,
-        //     where: { idSeat: Sequelize.col("user.idSeat") },
-        //   },
-        // ],
+        include: [
+          {
+            model: UserModel,
+          },
+        ],
         where: {
           idRoom: 9,
         },
@@ -49,6 +48,7 @@ module.exports = {
         data_room_9_1: finalResult[0],
         data_room_9_2: finalResult[1],
         data_room_9_3: finalResult[2],
+        seat:seat
       });
     } catch (e) {
       console.log(e);
