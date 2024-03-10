@@ -4,15 +4,15 @@ const SeatController = require("../controller/seat.controller");
 
 /* GET users listing. */
 SeatRouter.get("/", SeatController.getSeat);
-SeatRouter.get('/floor9',SeatController.getSeatFloor9)
+SeatRouter.get("/floor9", SeatController.getSeatFloor9);
 
 // Edit Seat
-SeatRouter.post('/seat-change/:id')  // id : idSeat
-     // params = {
-        //   nameUser:'',
-        //   title:'',
-        //   avatar:'',
-        //   idSeat:''
-        // }
+SeatRouter.post("/seat-change/:id", SeatController.SeatChange); // id : idSeat
+// params = {
+//   nameUser:'',
+//   title:'',
+//   avatar:'',
+//   idSeat:''
+// }
 
 module.exports = SeatRouter;
