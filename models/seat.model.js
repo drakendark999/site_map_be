@@ -1,12 +1,12 @@
 const { DataTypes } = require("sequelize");
-
 const sequelize = require("../config/db");
+const UserModel = require("./user.model");
 
 const SeatModel = sequelize.define(
   "seat",
   {
     idSeat: {
-      type: DataTypes.TINYINT,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
@@ -24,6 +24,6 @@ const SeatModel = sequelize.define(
   }
 );
 
-SeatModel.sync({ alter: true });
+// Định nghĩa mối quan hệ đúng cách
 
-module.exports = SeatModel
+module.exports = SeatModel;

@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 const sequelize = require("../config/db");
+const SeatModel = require("./seat.model");
 
 const UserModel = sequelize.define(
   "user",
@@ -28,13 +29,21 @@ const UserModel = sequelize.define(
     },
     idSeat: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      references: {
+        model: SeatModel,
+        key: 'idSeat'
+      }
     },
   },
   {
     tableName: "user",
   }
 );
+
+UserModel.belongsTo(SeatModel, { foreignKey: 'idSeat' });
+SeatModel.hasOne(UserModel, { foreignKey: 'idSeat' });
+
 UserModel.sync({ alter: true });
+
 
 module.exports = UserModel;
