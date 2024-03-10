@@ -39,7 +39,7 @@ module.exports = {
         const subChunk = resultChunks.slice(i, i + subChunkSize);
         finalResult.push(subChunk);
       }
-      console.log('result',resultChunks);
+      console.log("result", resultChunks);
 
       console.log(finalResult);
 
@@ -48,8 +48,39 @@ module.exports = {
         data_room_9_1: finalResult[0],
         data_room_9_2: finalResult[1],
         data_room_9_3: finalResult[2],
-        seat:seat
       });
+    } catch (e) {
+      console.log(e);
+      return res.send({ status: 0, message: e });
+    }
+  },
+
+  SeatChange: async function (req, res) {
+    try {
+      const params = req.body;
+      const id = req.params;
+      const findUser = await UserModel.findOne({ where: params.msnv });
+
+      if (!findUser) {
+        // params = {
+        //   nameUser:'',
+        //   title:'',
+        //   avatar:'',
+        //   idSeat:''
+        // }
+        await UserModel.create(params);
+        return res.send({ status: 1, message: "Upload Successfull" });
+      } else {
+        const data_update =await UserModel.update(
+          { idSeat: params.idSeat },
+          {
+            where: {
+              idSeat: id,
+            },
+          }
+        );
+        return res.send({ status: 1, message:"Upload Successfull",data:data_update });
+      }
     } catch (e) {
       console.log(e);
       return res.send({ status: 0, message: e });
