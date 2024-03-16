@@ -12,6 +12,25 @@ module.exports = {
     }
   },
 
+  getSeatSmallRoomFloor7: async function (req, res) {
+    try {
+      const seat = await SeatModel.findAll({
+        include: [
+          {
+            model: UserModel,
+          },
+        ],
+        where: {
+          idRoom: 4,
+        },
+      });
+      return res.send({ status: 1, data_small_room: seat });
+    } catch (e) {
+      console.log(e);
+      return res.send({ status: 0, message: e });
+    }
+  },
+
   getSeatFloor7: async function (req, res) {
     try {
       const seat = await SeatModel.findAll({
@@ -30,9 +49,24 @@ module.exports = {
         let seat_center = seat.slice(4, -2);
         let two_seat_last = seat.slice(-2);
 
+        let result = [];
+        const chunkSize = 5;
+
+        for (let i = 0; i < seat_center.length; i += chunkSize) {
+          result.push(seat_center.slice(i, i + chunkSize));
+        }
+
+        console.log(result.length);
+
         return res.send({
           status: 1,
           four_seat_first: four_seat_first,
+          center_seat_1: result[0],
+          center_seat_2: result[1],
+          center_seat_3: result[2],
+          center_seat_4: result[3],
+          center_seat_5: result[4],
+          center_seat_6: result[5],
           two_seat_last: two_seat_last,
         });
       }
@@ -46,6 +80,74 @@ module.exports = {
       return res.send({ status: 0, message: e });
     }
   },
+
+  getSeatSmallRoomFloor8: async function (req, res) {
+    try {
+      const seat = await SeatModel.findAll({
+        include: [
+          {
+            model: UserModel,
+          },
+        ],
+        where: {
+          idRoom: 8,
+        },
+      });
+      return res.send({ status: 1, data_small_room: seat });
+    } catch (e) {
+      console.log(e);
+      return res.send({ status: 0, message: e });
+    }
+  },
+
+  getSeatFloor8: async function (req, res) {
+    try {
+      const seat = await SeatModel.findAll({
+        include: [
+          {
+            model: UserModel,
+          },
+        ],
+        where: {
+          idRoom: 7,
+        },
+      });
+
+      if (seat.length > 0) {
+        let seven_seat_first = seat.slice(0, 7);
+        let seat_center = seat.slice(7, -2);
+        let two_seat_last = seat.slice(-2);
+
+        // let result = [];
+        // const chunkSize = 5;
+
+        // for (let i = 0; i < seat_center.length; i += chunkSize) {
+        //   result.push(seat_center.slice(i, i + chunkSize));
+        // }
+
+        // console.log(result.length);
+
+        return res.send({
+          status: 1,
+          seven_seat_first: seven_seat_first,
+          total: seven_seat_first.length,
+          seat_center:seat_center,
+          total_2: seat_center.length,
+          two_seat_last: two_seat_last,
+          total_3: two_seat_last.length,
+        });
+      }
+
+      return res.send({
+        status: 0,
+        message: "Failed!",
+      });
+    } catch (e) {
+      console.log(e);
+      return res.send({ status: 0, message: e });
+    }
+  },
+
 
   getSeatFloor9: async function (req, res) {
     try {
@@ -111,12 +213,12 @@ module.exports = {
 
         if (find_old_nv) {
           await UserModel.findOne({ where: { idSeat: id } }).update({
-            idSeat: null,
+            idSeat: 0,
           });
         }
 
         const data_update = await UserModel.update(
-          { idSeat: id },
+          { idSeat: Number(id) },
           {
             where: {
               idUser: params.idUser,

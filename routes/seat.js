@@ -8,6 +8,10 @@ SeatRouter.get("/", SeatController.getSeat);
 SeatRouter.get("/floor9", SeatController.getSeatFloor9);
 // get seat big room floor 7
 SeatRouter.get("/floor7", SeatController.getSeatFloor7);
+SeatRouter.get("/floor7-small-room", SeatController.getSeatSmallRoomFloor7);
+// get seat big room floor 8
+SeatRouter.get("/floor8", SeatController.getSeatFloor8);
+SeatRouter.get("/floor8-small-room", SeatController.getSeatSmallRoomFloor8);
 // Edit Seat
 SeatRouter.post("/seat-change/:id", SeatController.SeatChange); // id : idSeat
 // params = {
