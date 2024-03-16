@@ -131,7 +131,7 @@ module.exports = {
           status: 1,
           seven_seat_first: seven_seat_first,
           total: seven_seat_first.length,
-          seat_center:seat_center,
+          seat_center: seat_center,
           total_2: seat_center.length,
           two_seat_last: two_seat_last,
           total_3: two_seat_last.length,
@@ -147,7 +147,6 @@ module.exports = {
       return res.send({ status: 0, message: e });
     }
   },
-
 
   getSeatFloor9: async function (req, res) {
     try {
@@ -196,7 +195,7 @@ module.exports = {
   SeatChange: async function (req, res) {
     try {
       const params = req.body;
-      const id = req.params;
+      const id = req.params.id;
 
       if (!params.idUser) {
         // params = {
@@ -212,24 +211,45 @@ module.exports = {
         const find_old_nv = await UserModel.findOne({ where: { idSeat: id } });
 
         if (find_old_nv) {
-          await UserModel.findOne({ where: { idSeat: id } }).update({
-            idSeat: 0,
-          });
+          await UserModel.update({ idSeat: null }, { where: { idSeat: id } });
         }
 
-        const data_update = await UserModel.update(
-          { idSeat: Number(id) },
-          {
-            where: {
-              idUser: params.idUser,
-            },
-          }
-        );
-        return res.send({
-          status: 1,
-          message: "Upload Successfull",
-          data: data_update,
+        const find_nv = await UserModel.findOne({
+          where: {
+            msnv: params.msnv,
+          },
         });
+
+        if (!find_nv) {
+          const data_update = await UserModel.create({
+            idSeat: id,
+            nameUser: params.nameUser,
+            msnv: params.msnv,
+            title: params.title,
+            avatar: params.avatar,
+            phone: params.phone,
+          });
+          await UserModel.update(
+            { idSeat: id },
+            {
+              where: {
+                msnv: params.msnv,
+              },
+            }
+          );
+          return res.send({
+            status: 1,
+            message: "Upload Successfull",
+            data: data_update,
+          });
+        } else {
+          const data_update = await UserModel.create(params);
+          return res.send({
+            status: 1,
+            message: "Upload Successfull",
+            data: data_update,
+          });
+        }
       }
     } catch (e) {
       console.log(e);
