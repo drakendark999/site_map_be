@@ -1,6 +1,7 @@
 const SeatModel = require("../models/seat.model");
 const UserModel = require("../models/user.model");
 const { Sequelize } = require("sequelize");
+const { param } = require("../routes/seat");
 module.exports = {
   getSeat: async function (req, res) {
     try {
@@ -8,6 +9,41 @@ module.exports = {
       res.send("seat");
     } catch (e) {
       console.log(e);
+    }
+  },
+
+  getSeatFloor7: async function (req, res) {
+    try {
+      const seat = await SeatModel.findAll({
+        include: [
+          {
+            model: UserModel,
+          },
+        ],
+        where: {
+          idRoom: 3,
+        },
+      });
+
+      if (seat.length > 0) {
+        let four_seat_first = seat.slice(0, 4);
+        let seat_center = seat.slice(4, -2);
+        let two_seat_last = seat.slice(-2);
+
+        return res.send({
+          status: 1,
+          four_seat_first: four_seat_first,
+          two_seat_last: two_seat_last,
+        });
+      }
+
+      return res.send({
+        status: 0,
+        message: "Failed!",
+      });
+    } catch (e) {
+      console.log(e);
+      return res.send({ status: 0, message: e });
     }
   },
 
@@ -59,32 +95,31 @@ module.exports = {
     try {
       const params = req.body;
       const id = req.params;
-      const findUser = await UserModel.findOne({ where: params.msnv });
 
-      if (!findUser) {
+      if (!params.idUser) {
         // params = {
         //   nameUser:'',
         //   title:'',
         //   avatar:'',
         //   phone:'
-        //   idSeat:''
+        //   idUser:''
         // }
         await UserModel.create(params);
         return res.send({ status: 1, message: "Upload Successfull" });
       } else {
-        const find_old_nv = await UserModel.findOne({ where: params.idSeat });
+        const find_old_nv = await UserModel.findOne({ where: { idSeat: id } });
 
         if (find_old_nv) {
-          await UserModel.findOne({ where: params.idSeat }).update({
+          await UserModel.findOne({ where: { idSeat: id } }).update({
             idSeat: null,
           });
         }
 
         const data_update = await UserModel.update(
-          { idSeat: params.idSeat },
+          { idSeat: id },
           {
             where: {
-              idUser: id,
+              idUser: params.idUser,
             },
           }
         );
