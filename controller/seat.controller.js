@@ -261,7 +261,14 @@ module.exports = {
             avatar: params.avatar,
             phone: params.phone,
           });
-          await UserModel.update(
+         
+          return res.send({
+            status: 1,
+            message: "Upload Successfull",
+            data: data_update,
+          });
+        } else {
+         const data_update= await UserModel.update(
             { idSeat: id },
             {
               where: {
@@ -269,13 +276,6 @@ module.exports = {
               },
             }
           );
-          return res.send({
-            status: 1,
-            message: "Upload Successfull",
-            data: data_update,
-          });
-        } else {
-          const data_update = await UserModel.create(params);
           return res.send({
             status: 1,
             message: "Upload Successfull",
