@@ -118,23 +118,22 @@ module.exports = {
         let seat_center = seat.slice(7, -2);
         let two_seat_last = seat.slice(-2);
 
-        // let result = [];
-        // const chunkSize = 5;
+        let result = [];
+        const chunkSize = 5;
 
-        // for (let i = 0; i < seat_center.length; i += chunkSize) {
-        //   result.push(seat_center.slice(i, i + chunkSize));
-        // }
+        for (let i = 0; i < seat_center.length; i += chunkSize) {
+          result.push(seat_center.slice(i, i + chunkSize));
+        }
 
-        // console.log(result.length);
+        console.log(result.length);
 
         return res.send({
           status: 1,
           seven_seat_first: seven_seat_first,
-          total: seven_seat_first.length,
-          seat_center: seat_center,
-          total_2: seat_center.length,
+          center_seat_1: result[0],
+          center_seat_2: result[1],
+          center_seat_3: result[2],
           two_seat_last: two_seat_last,
-          total_3: two_seat_last.length,
         });
       }
 
