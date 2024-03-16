@@ -191,6 +191,39 @@ module.exports = {
     }
   },
 
+  getSeatFloor10: async function (req, res) {
+    try {
+      const seat = await SeatModel.findAll({
+        include: [
+          {
+            model: UserModel,
+          },
+        ],
+        where: {
+          idRoom: 10,
+        },
+      });
+
+      if (seat.length > 0) {
+        let two_seat_first = seat.slice(0, 2);
+        let three_seat = seat.slice(2, 5);
+        let two_seat = seat.slice(5, 7);
+        let three_seat_last = seat.slice(-3);
+
+        return res.send({
+          status: 1,
+          two_seat_first: two_seat_first,
+          three_seat: three_seat,
+          two_seat: two_seat,
+          three_seat_last: three_seat_last,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      return res.send({ staus: 0, message: e });
+    }
+  },
+
   SeatChange: async function (req, res) {
     try {
       const params = req.body;
