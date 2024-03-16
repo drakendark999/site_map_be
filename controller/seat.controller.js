@@ -66,20 +66,33 @@ module.exports = {
         //   nameUser:'',
         //   title:'',
         //   avatar:'',
+        //   phone:'
         //   idSeat:''
         // }
         await UserModel.create(params);
         return res.send({ status: 1, message: "Upload Successfull" });
       } else {
-        const data_update =await UserModel.update(
+        const find_old_nv = await UserModel.findOne({ where: params.idSeat });
+
+        if (find_old_nv) {
+          await UserModel.findOne({ where: params.idSeat }).update({
+            idSeat: null,
+          });
+        }
+
+        const data_update = await UserModel.update(
           { idSeat: params.idSeat },
           {
             where: {
-              idSeat: id,
+              idUser: id,
             },
           }
         );
-        return res.send({ status: 1, message:"Upload Successfull",data:data_update });
+        return res.send({
+          status: 1,
+          message: "Upload Successfull",
+          data: data_update,
+        });
       }
     } catch (e) {
       console.log(e);

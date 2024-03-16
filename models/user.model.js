@@ -16,6 +16,10 @@ const UserModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    phone:{
+      type:DataTypes.STRING,
+      allowNull : true
+    },
     title: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -29,7 +33,8 @@ const UserModel = sequelize.define(
       references: {
         model: SeatModel,
         key: 'idSeat'
-      }
+      },
+      allowNull:true
     },
   },
   {

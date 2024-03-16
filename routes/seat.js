@@ -10,6 +10,7 @@ SeatRouter.get("/floor9", SeatController.getSeatFloor9);
 SeatRouter.post("/seat-change/:id", SeatController.SeatChange); // id : idSeat
 // params = {
 //   nameUser:'',
+//   msnv:'',
 //   title:'',
 //   avatar:'',
 //   idSeat:''
