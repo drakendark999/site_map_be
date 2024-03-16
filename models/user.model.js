@@ -26,7 +26,7 @@ const UserModel = sequelize.define(
     },
     avatar: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     idSeat: {
       type: DataTypes.INTEGER,
