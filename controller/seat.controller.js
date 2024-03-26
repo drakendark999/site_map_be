@@ -1,7 +1,7 @@
 const SeatModel = require("../models/seat.model");
 const UserModel = require("../models/user.model");
-const { Sequelize } = require("sequelize");
-const { param } = require("../routes/seat");
+const { uploadFile } = require("../libs/uploadImg");
+
 module.exports = {
   getSeat: async function (req, res) {
     try {
@@ -9,6 +9,25 @@ module.exports = {
       res.send("seat");
     } catch (e) {
       console.log(e);
+    }
+  },
+
+  getSeatFloor6: async function (req, res) {
+    try {
+      const seat = await SeatModel.findAll({
+        include: [
+          {
+            model: UserModel,
+          },
+        ],
+        where: {
+          idRoom: 16,
+        },
+      });
+      return res.send({ status: 1, data_small_room: seat });
+    } catch (e) {
+      console.log(e);
+      return res.send({ status: 0, message: e });
     }
   },
 
@@ -226,10 +245,21 @@ module.exports = {
 
   SeatChange: async function (req, res) {
     try {
+      const file = req.file;
       const params = req.body;
       const id = req.params.id;
 
-      if (!params.idUser) {
+      console.log("Received file:", file);
+      console.log("Received other data:", params.idUser);
+
+      let avatar = null;
+
+      if (file) {
+        avatar = await uploadFile(file);
+      }
+      // console.log("avar", avatar);
+
+      if (params.idUser == "null") {
         // params = {
         //   nameUser:'',
         //   title:'',
@@ -237,13 +267,25 @@ module.exports = {
         //   phone:'
         //   idUser:''
         // }
-        await UserModel.create(params);
+        console.log("chua co nv ", params);
+        console.log("chua co nv ", id);
+        await UserModel.create({
+          idSeat: id,
+          nameUser: params.nameUser,
+          msnv: params.msnv,
+          title: params.title,
+          avatar: avatar,
+          phone: params.phone,
+        });
         return res.send({ status: 1, message: "Upload Successfull" });
       } else {
         const find_old_nv = await UserModel.findOne({ where: { idSeat: id } });
 
         if (find_old_nv) {
-          await UserModel.update({ idSeat: null }, { where: { idSeat: id } });
+          await UserModel.update(
+            { idSeat: null, avatar: avatar },
+            { where: { idSeat: id } }
+          );
         }
 
         const find_nv = await UserModel.findOne({
@@ -258,18 +300,18 @@ module.exports = {
             nameUser: params.nameUser,
             msnv: params.msnv,
             title: params.title,
-            avatar: params.avatar,
+            avatar: avatar,
             phone: params.phone,
           });
-         
+
           return res.send({
             status: 1,
             message: "Upload Successfull",
             data: data_update,
           });
         } else {
-         const data_update= await UserModel.update(
-            { idSeat: id },
+          const data_update = await UserModel.update(
+            { idSeat: id, avatar: avatar },
             {
               where: {
                 msnv: params.msnv,
