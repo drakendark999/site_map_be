@@ -179,6 +179,28 @@ module.exports = {
         },
       });
 
+      const seat_bod_1 = await SeatModel.findOne({
+        include: [
+          {
+            model: UserModel,
+          },
+        ],
+        where: {
+          idRoom: 18,
+        },
+      });
+
+      const seat_bod_2 = await SeatModel.findOne({
+        include: [
+          {
+            model: UserModel,
+          },
+        ],
+        where: {
+          idRoom: 19,
+        },
+      });
+
       const resultChunks = [];
       const firstChunkSize = 7;
       const remainingChunkSize = 6;
@@ -200,6 +222,8 @@ module.exports = {
         data_room_9_1: resultChunks[0],
         data_room_9_2: resultChunks[1],
         data_room_9_3: resultChunks[2],
+        seat_bod_1:seat_bod_1,
+        seat_bod_2:seat_bod_2
       });
     } catch (e) {
       console.log(e);
@@ -220,6 +244,17 @@ module.exports = {
         },
       });
 
+      const seat_bod = await SeatModel.findAll({
+        include: [
+          {
+            model: UserModel,
+          },
+        ],
+        where: {
+          idRoom: 11,
+        },
+      });
+
       if (seat.length > 0) {
         let two_seat_first = seat.slice(0, 2);
         let three_seat = seat.slice(2, 5);
@@ -232,6 +267,7 @@ module.exports = {
           three_seat: three_seat,
           two_seat: two_seat,
           three_seat_last: three_seat_last,
+          seat_bod:seat_bod
         });
       }
     } catch (e) {
