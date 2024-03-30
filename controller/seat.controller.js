@@ -11,7 +11,27 @@ module.exports = {
       console.log(e);
     }
   },
-
+  getSeatReceptionist: async function (req, res) {
+    try {
+      const seat = await SeatModel.findOne({
+        include: [
+          {
+            model: UserModel,
+          },
+        ],
+        where: {
+          idRoom: 17,
+        },
+        order: [
+          ["idSeat", "ASC"], // Sắp xếp theo trường idSeat theo thứ tự tăng dần (ASC)
+        ],
+      });
+      return res.send({ status: 1, data: seat });
+    } catch (e) {
+      console.log(e);
+      return res.send({ message: "error", staus: 0 });
+    }
+  },
   getSeatFloor6: async function (req, res) {
     try {
       const seat = await SeatModel.findAll({

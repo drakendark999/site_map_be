@@ -13,7 +13,8 @@ async function authorize() {
 }
 /* GET users listing. */
 SeatRouter.get("/", SeatController.getSeat);
-// get seat big room floor 7
+SeatRouter.get("/floor-receptionist", SeatController.getSeatReceptionist);
+// get seat big room floor 6
 SeatRouter.get("/floor6", SeatController.getSeatFloor6);
 // get seat big room floor 7
 SeatRouter.get("/floor7", SeatController.getSeatFloor7);
