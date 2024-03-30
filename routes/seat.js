@@ -14,7 +14,7 @@ async function authorize() {
 /* GET users listing. */
 SeatRouter.get("/", SeatController.getSeat);
 // get seat big room floor 7
-SeatRouter.get("/floor7", SeatController.getSeatFloor6);
+SeatRouter.get("/floor6", SeatController.getSeatFloor6);
 // get seat big room floor 7
 SeatRouter.get("/floor7", SeatController.getSeatFloor7);
 SeatRouter.get("/floor7-small-room", SeatController.getSeatSmallRoomFloor7);
@@ -30,13 +30,8 @@ SeatRouter.post(
   "/seat-change/:id",
   upload.single("avatar"),
   SeatController.SeatChange
-); // id : idSeat
-// params = {
-//   nameUser:'',
-//   msnv:'',
-//   title:'',
-//   avatar:'',
-//   idUser:''
-// }
+);
+// Delete Seat
+SeatRouter.delete('/delete/:id',SeatController.SeatDelete)
 
 module.exports = SeatRouter;

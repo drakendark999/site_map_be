@@ -5,10 +5,10 @@ const fs = require("fs");
 const path = require("path");
 const { Readable } = require("stream");
 
-const CLIENT_ID = process.env.CLIENT_ID 
+const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
-const REFRESH_TOKEN =process.env.REFRESH_TOKEN
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
 const oauth2Client = new google.auth.OAuth2(
   CLIENT_ID,
@@ -50,7 +50,7 @@ var that = (module.exports = {
         requestBody: {
           name: fileShare.originalname,
           mimeType: "image/jpg",
-          parents: ["1QWknTCI42-RhEOgZSFPCgWYvsT9cg_mh"],
+          parents: ["1ww9Br6RbfshNwgZ-PKA558LmM-H-EGcj"],
         },
         media: {
           mimeType: "image/jpg",

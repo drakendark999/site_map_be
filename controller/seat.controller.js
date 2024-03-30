@@ -180,29 +180,26 @@ module.exports = {
       });
 
       const resultChunks = [];
-      const chunkSize = 6;
+      const firstChunkSize = 7;
+      const remainingChunkSize = 6;
 
-      for (let i = 0; i < seat.length; i += chunkSize) {
-        const chunk = seat.slice(i, i + chunkSize);
+      // Tạo mảng con đầu tiên có 7 phần tử
+      const firstChunk = seat.slice(0, firstChunkSize);
+      resultChunks.push(firstChunk);
+
+      // Tạo 2 mảng con còn lại với 6 phần tử mỗi mảng
+      for (let i = firstChunkSize; i < seat.length; i += remainingChunkSize) {
+        const chunk = seat.slice(i, i + remainingChunkSize);
         resultChunks.push(chunk);
       }
 
-      // Chia mảng con thành 3 mảng
-      const finalResult = [];
-      const subChunkSize = Math.ceil(resultChunks.length / 3);
-      for (let i = 0; i < resultChunks.length; i += subChunkSize) {
-        const subChunk = resultChunks.slice(i, i + subChunkSize);
-        finalResult.push(subChunk);
-      }
       console.log("result", resultChunks);
-
-      console.log(finalResult);
 
       return res.send({
         status: 1,
-        data_room_9_1: finalResult[0],
-        data_room_9_2: finalResult[1],
-        data_room_9_3: finalResult[2],
+        data_room_9_1: resultChunks[0],
+        data_room_9_2: resultChunks[1],
+        data_room_9_3: resultChunks[2],
       });
     } catch (e) {
       console.log(e);
@@ -249,6 +246,8 @@ module.exports = {
       const params = req.body;
       const id = req.params.id;
 
+      console.log(params);
+
       console.log("Received file:", file);
       console.log("Received other data:", params.idUser);
 
@@ -260,13 +259,6 @@ module.exports = {
       // console.log("avar", avatar);
 
       if (params.idUser == "null") {
-        // params = {
-        //   nameUser:'',
-        //   title:'',
-        //   avatar:'',
-        //   phone:'
-        //   idUser:''
-        // }
         console.log("chua co nv ", params);
         console.log("chua co nv ", id);
         await UserModel.create({
@@ -282,10 +274,8 @@ module.exports = {
         const find_old_nv = await UserModel.findOne({ where: { idSeat: id } });
 
         if (find_old_nv) {
-          await UserModel.update(
-            { idSeat: null, avatar: avatar },
-            { where: { idSeat: id } }
-          );
+          console.log("da xoa");
+          await UserModel.update({ idSeat: null }, { where: { idSeat: id } });
         }
 
         const find_nv = await UserModel.findOne({
@@ -311,7 +301,13 @@ module.exports = {
           });
         } else {
           const data_update = await UserModel.update(
-            { idSeat: id, avatar: avatar },
+            {
+              idSeat: id,
+              avatar: params.avatar ? params.avatar : avatar,
+              nameUser: params.nameUser,
+              msnv: params.msnv,
+              title: params.title,
+            },
             {
               where: {
                 msnv: params.msnv,
@@ -328,6 +324,20 @@ module.exports = {
     } catch (e) {
       console.log(e);
       return res.send({ status: 0, message: e });
+    }
+  },
+  SeatDelete: async function (req, res) {
+    try {
+      const id = req.params.id;
+      const find_old_nv = await UserModel.findOne({ where: { idSeat: id } });
+      if (find_old_nv) {
+        await UserModel.destroy({ where: { idSeat: id } });
+        return res.send({ status: 1, message: "Delete sucessfully" });
+      }
+      return res.send({ status: 0, message: "Delete error" });
+    } catch (e) {
+      console.log(e);
+      return res.send({ status: 0, message: "Delete error" });
     }
   },
 };
