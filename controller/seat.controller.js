@@ -216,9 +216,6 @@ module.exports = {
         ],
         where: {
           idRoom: 19,
-          order: [
-            ["idSeat", "ASC"], // Sắp xếp theo trường idSeat theo thứ tự tăng dần (ASC)
-          ],
         },
       });
 
