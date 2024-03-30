@@ -23,6 +23,9 @@ module.exports = {
         where: {
           idRoom: 16,
         },
+        order: [
+          ["idSeat", "ASC"], // Sắp xếp theo trường idSeat theo thứ tự tăng dần (ASC)
+        ],
       });
       return res.send({ status: 1, data_small_room: seat });
     } catch (e) {
@@ -42,6 +45,9 @@ module.exports = {
         where: {
           idRoom: 4,
         },
+        order: [
+          ["idSeat", "ASC"], // Sắp xếp theo trường idSeat theo thứ tự tăng dần (ASC)
+        ],
       });
       return res.send({ status: 1, data_small_room: seat });
     } catch (e) {
@@ -61,6 +67,9 @@ module.exports = {
         where: {
           idRoom: 3,
         },
+        order: [
+          ["idSeat", "ASC"], // Sắp xếp theo trường idSeat theo thứ tự tăng dần (ASC)
+        ],
       });
 
       if (seat.length > 0) {
@@ -111,6 +120,9 @@ module.exports = {
         where: {
           idRoom: 8,
         },
+        order: [
+          ["idSeat", "ASC"], // Sắp xếp theo trường idSeat theo thứ tự tăng dần (ASC)
+        ],
       });
       return res.send({ status: 1, data_small_room: seat });
     } catch (e) {
@@ -130,6 +142,9 @@ module.exports = {
         where: {
           idRoom: 7,
         },
+        order: [
+          ["idSeat", "ASC"], // Sắp xếp theo trường idSeat theo thứ tự tăng dần (ASC)
+        ],
       });
 
       if (seat.length > 0) {
@@ -177,6 +192,9 @@ module.exports = {
         where: {
           idRoom: 9,
         },
+        order: [
+          ["idSeat", "ASC"], // Sắp xếp theo trường idSeat theo thứ tự tăng dần (ASC)
+        ],
       });
 
       const seat_bod_1 = await SeatModel.findOne({
@@ -198,6 +216,9 @@ module.exports = {
         ],
         where: {
           idRoom: 19,
+          order: [
+            ["idSeat", "ASC"], // Sắp xếp theo trường idSeat theo thứ tự tăng dần (ASC)
+          ],
         },
       });
 
@@ -222,8 +243,8 @@ module.exports = {
         data_room_9_1: resultChunks[0],
         data_room_9_2: resultChunks[1],
         data_room_9_3: resultChunks[2],
-        seat_bod_1:seat_bod_1,
-        seat_bod_2:seat_bod_2
+        seat_bod_1: seat_bod_1,
+        seat_bod_2: seat_bod_2,
       });
     } catch (e) {
       console.log(e);
@@ -242,6 +263,9 @@ module.exports = {
         where: {
           idRoom: 10,
         },
+        order: [
+          ["idSeat", "ASC"], // Sắp xếp theo trường idSeat theo thứ tự tăng dần (ASC)
+        ],
       });
 
       const seat_bod = await SeatModel.findAll({
@@ -267,7 +291,7 @@ module.exports = {
           three_seat: three_seat,
           two_seat: two_seat,
           three_seat_last: three_seat_last,
-          seat_bod:seat_bod
+          seat_bod: seat_bod,
         });
       }
     } catch (e) {
