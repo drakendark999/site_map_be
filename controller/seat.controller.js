@@ -167,6 +167,17 @@ module.exports = {
         ],
       });
 
+      const seat_bod = await SeatModel.findOne({
+        include: [
+          {
+            model: UserModel,
+          },
+        ],
+        where: {
+          idRoom: 5,
+        },
+      });
+
       if (seat.length > 0) {
         let seven_seat_first = seat.slice(0, 7);
         let seat_center = seat.slice(7, -2);
@@ -188,6 +199,7 @@ module.exports = {
           center_seat_2: result[1],
           center_seat_3: result[2],
           two_seat_last: two_seat_last,
+          seat_bod : seat_bod
         });
       }
 

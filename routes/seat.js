@@ -3,16 +3,10 @@ const SeatRouter = express.Router();
 const multer = require("multer");
 const upload = multer();
 const SeatController = require("../controller/seat.controller");
-const { google } = require("googleapis");
-const apikey = require("../apikey.json");
-const SCOPE = "https://www.googleapis.com/auth/drive"
-async function authorize() {
-  const jwtClient = new google.auth.JWT(apikey.client_email,null,apikey.private_key,SCOPE)
-  await jwtClient.authorize()
-  return jwtClient
-}
+
 /* GET users listing. */
 SeatRouter.get("/", SeatController.getSeat);
+// get seat big room receptionist
 SeatRouter.get("/floor-receptionist", SeatController.getSeatReceptionist);
 // get seat big room floor 6
 SeatRouter.get("/floor6", SeatController.getSeatFloor6);
