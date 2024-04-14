@@ -5,7 +5,7 @@ const RoomModel = require("../models/room.model");
 const { Op } = require("sequelize");
 
 module.exports = {
-  changeSeat: async () => {
+  changeSeat: async (req, res) => {
     try {
       const { idOldSeat, idNewSeat } = req.body;
       if (!idOldSeat || !idNewSeat) {
