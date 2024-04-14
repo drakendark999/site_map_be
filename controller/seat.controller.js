@@ -1,8 +1,37 @@
 const SeatModel = require("../models/seat.model");
 const UserModel = require("../models/user.model");
 const { uploadFile } = require("../libs/uploadImg");
+const RoomModel = require("../models/room.model");
+const { Op } = require("sequelize");
 
 module.exports = {
+  getSeatBaseOnFloor: async function (req, res) {
+    try {
+      const idFloor = req.params.id;
+      const room = await RoomModel.findAll({
+        attributes: ["idRoom"],
+        where: {
+          idFloor: idFloor,
+        },
+      });
+      if (room.length > 0) {
+        const dataRoom = room.map((e) => e.idRoom);
+        const seat = await SeatModel.findAll({
+          attributes: ["idSeat", "idRoom", "nameSeat"],
+          where: {
+            idRoom: {
+              [Op.in]: dataRoom,
+            },
+          },
+        });
+        return res.send({ status: 1, allSeat: seat });
+      } else {
+        return res.send({ status: 0, message:'Cannot get Seat' });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  },
   getSeat: async function (req, res) {
     try {
       const seat = await SeatModel;
@@ -199,7 +228,7 @@ module.exports = {
           center_seat_2: result[1],
           center_seat_3: result[2],
           two_seat_last: two_seat_last,
-          seat_bod : seat_bod
+          seat_bod: seat_bod,
         });
       }
 

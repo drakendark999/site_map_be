@@ -28,5 +28,7 @@ SeatRouter.post(
 );
 // Delete Seat
 SeatRouter.delete('/delete/:id',SeatController.SeatDelete)
+// Seat base on floor 
+SeatRouter.get ('/base-on-floor/:id',SeatController.getSeatBaseOnFloor)
 
 module.exports = SeatRouter;
