@@ -30,5 +30,7 @@ SeatRouter.post(
 SeatRouter.delete('/delete/:id',SeatController.SeatDelete)
 // Seat base on floor 
 SeatRouter.get ('/base-on-floor/:id',SeatController.getSeatBaseOnFloor)
+// Seat Change on floor
+SeatRouter.put('change-seat',SeatController.SeatChange)
 
 module.exports = SeatRouter;

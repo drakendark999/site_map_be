@@ -5,6 +5,35 @@ const RoomModel = require("../models/room.model");
 const { Op } = require("sequelize");
 
 module.exports = {
+  changeSeat: async () => {
+    try {
+      const { idOldSeat, idNewSeat } = req.body;
+      if (!idOldSeat || !idNewSeat) {
+        return res.send({ status: 0 });
+      } else {
+        find_user_id_new_seat = await UserModel.update(
+          { idSeat: null },
+          {
+            where: {
+              idSeat: idNewSeat,
+            },
+          }
+        );
+        find_user_id_old_seat = await UserModel.update(
+          { idSeat: idNewSeat },
+          {
+            where: {
+              idSeat: idOldSeat,
+            },
+          }
+        );
+        return res.send({ status: 1, message: "success" });
+      }
+    } catch (err) {
+      console.log(err);
+      return res.send({ status: 0, message: "error" });
+    }
+  },
   getSeatBaseOnFloor: async function (req, res) {
     try {
       const idFloor = req.params.id;
@@ -26,7 +55,7 @@ module.exports = {
         });
         return res.send({ status: 1, allSeat: seat });
       } else {
-        return res.send({ status: 0, message:'Cannot get Seat' });
+        return res.send({ status: 0, message: "Cannot get Seat" });
       }
     } catch (err) {
       console.error(err);
